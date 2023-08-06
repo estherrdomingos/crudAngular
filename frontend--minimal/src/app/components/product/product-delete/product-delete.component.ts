@@ -17,7 +17,10 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class ProductDeleteComponent implements OnInit {
   
-  product: Product;
+  product: Product = {
+    name : '',
+    price : 0
+  }
 
   constructor(
     private productService: ProductService,
@@ -33,11 +36,15 @@ export class ProductDeleteComponent implements OnInit {
       : null;
   }
   deleteProduct(): void {
-    this.productService.delete(this.product.id).subscribe();
-    {
-      this.productService.showMessage('Produto Excluido!');
-      this.router.navigate(['/products']);
-    }
+    this.product.id !== undefined
+      ? this.productService.delete(this.product.id).subscribe(() =>
+        {
+          this.productService.showMessage('Produto Excluido!');
+          this.router.navigate(['/products']);
+        }
+      )
+      : null;
+    
   }
   cancel(): void {
     this.router.navigate(['/products']);

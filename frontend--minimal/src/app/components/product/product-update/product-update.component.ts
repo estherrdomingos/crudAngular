@@ -24,12 +24,15 @@ export class ProductUpdateComponent implements OnInit {
   ngOnInit(){
     const id = this.route.snapshot.paramMap.get('id')
     id !== null ? 
-    this.productService.readById(id).subscribe(product => {
+    this.productService.readById(Number(id)).subscribe(product => {
       this.product = product
     }) : null
   }
   updateProduct(): void{
-   
+   this.productService.update(this.product).subscribe(() =>{
+    this.productService.showMessage('Produto Alterado!');
+    this.router.navigate(['products']);
+   })
 
   }
   cancel(): void {
